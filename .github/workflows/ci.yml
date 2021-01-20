@@ -22,6 +22,11 @@ jobs:
       - name: Check Go version
         run: go version
 
+      - name: Docker Version and Info
+        run: |
+          docker version
+          docker info
+
       - name: Windows System Info
         if: ${{ matrix.os == 'windows-latest' }}
         run: |
