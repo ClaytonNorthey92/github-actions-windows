@@ -36,6 +36,12 @@ jobs:
         if: ${{ matrix.os == 'windows-latest' }}
         continue-on-error: true
         run: |
+          Uninstall-Package -Name docker -ProviderName DockerMSFTProvider
+          Install-Module DockerProvider
+          Install-Package Docker -ProviderName DockerProvider -RequiredVersion preview
+          [Environment]::SetEnvironmentVariable("LCOW_SUPPORTED", "1", "Machine")
+          Restart-Service docker
+          Docker run alpine:latest
           docker build -t sayhi -f dockerfiles\sayhi.Dockerfile .
           docker run sayhi:latest
 
