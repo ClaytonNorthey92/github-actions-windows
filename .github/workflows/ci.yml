@@ -1,0 +1,44 @@
+name: CI Pipeline
+
+on: [push]
+
+jobs:
+  build-a-container:
+    strategy:
+      matrix:
+        os: ['windows-latest', 'ubuntu-latest']
+    runs-on: ${{ matrix.os }}
+    env:
+      DOCKER_API_VERSION: '1.40'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '1.15.7' # The Go version to download (if necessary) and use.
+
+      - name: Check Go version
+        run: go version
+
+      - name: Windows System Info
+        if: ${{ matrix.os == 'windows-latest' }}
+        run: |
+          Get-ComputerInfo
+
+      - name: Can I build and run on Windows?
+        if: ${{ matrix.os == 'windows-latest' }}
+        continue-on-error: true
+        run: |
+          docker build -t sayhi -f dockerfiles\sayhi.Dockerfile .
+          docker run sayhi:latest
+
+      - name: Can I build and run on Linux?
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        run: |
+          docker build -t sayhi -f dockerfiles/sayhi.Dockerfile .
+
+      - name: Can I use the Go library to build and run?
+        run: |
+          go run ./...
