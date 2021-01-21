@@ -36,7 +36,7 @@ func main() {
 	if runtime.GOOS == "windows" {
 		_, err = client.ImageBuild(ctx, buildContext, types.ImageBuildOptions{
 			Context:    buildContext,
-			Dockerfile: "dockerfiles\\sayhi.Dockerfile",
+			Dockerfile: "dockerfiles/sayhi.Dockerfile",
 		})
 	} else {
 		_, err = client.ImageBuild(ctx, buildContext, types.ImageBuildOptions{

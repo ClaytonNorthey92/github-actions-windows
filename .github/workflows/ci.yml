@@ -32,15 +32,11 @@ jobs:
         run: |
           Get-ComputerInfo
 
-      - name: Can I build and run on Windows?
-        if: ${{ matrix.os == 'windows-latest' }}
-        continue-on-error: true
-        run: |
-          [Environment]::SetEnvironmentVariable("LCOW_SUPPORTED", "1", "Machine")
-          Restart-Service docker
-          Docker run alpine:latest
-          docker build -t sayhi -f dockerfiles\sayhi.Dockerfile .
-          docker run sayhi:latest
+      # - name: Can I build and run on Windows?
+      #   if: ${{ matrix.os == 'windows-latest' }}
+      #   run: |
+      #     docker build -t sayhi -f dockerfiles\sayhi.Dockerfile .
+      #     docker run sayhi:latest
 
       - name: Can I build and run on Linux?
         if: ${{ matrix.os == 'ubuntu-latest' }}
