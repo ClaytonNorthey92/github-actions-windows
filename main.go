@@ -28,7 +28,7 @@ func main() {
 		panic(err)
 	}
 
-	buildContext, err := archive.TarWithOptions(".", &archive.TarOptions{})
+	buildContext, err := archive.TarWithOptions(dir, &archive.TarOptions{})
 	if err != nil {
 		panic(err)
 	}
